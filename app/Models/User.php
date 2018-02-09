@@ -3,15 +3,20 @@
 namespace App\Models;
 
 use App\Models\Traits\ActiveUserHelper;
+use App\Models\Traits\LastActivedAtHelper;
+use Carbon\Carbon;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Auth;
 use Spatie\Permission\Traits\HasRoles;
+use Redis;
 
 class User extends Authenticatable
 {
     use HasRoles;
     use ActiveUserHelper;
+    use LastActivedAtHelper;
+
     use Notifiable {
         notify as protected laravelNotify;
     }
@@ -85,5 +90,29 @@ class User extends Authenticatable
         }
 
         $this->attributes['avatar'] = $path;
+    }
+
+    public function getLastActivedAtAttribute($value)
+    {
+        // 今天日期
+        $date = Carbon::now()->toDateString();
+
+        // Redis 哈希表的命名，如：larabbs_last_actived_at_2017-10-21
+        $hash = $this->getHashFromDateString($date);
+
+        // 字段名称， 如：user_1
+        $field = $this->getHashField();
+
+        // 三元运算符，优先选择 Redis 的数据，否则使用数据库中
+        $datetime = Redis::hGet($hash, $field) ? : $value;
+
+
+        // 如果存在的话，返回时间对应的 Carbon 实体
+        if($datetime) {
+            return new Carbon($datetime);
+        }else{
+            // 否则是用用户注册时间
+            return $this->created_at;
+        }
     }
 }
