@@ -16,6 +16,7 @@ $api = app('Dingo\Api\Routing\Router');
 
 $api->version('v1', [
     'namespace' => 'App\Http\Controllers\Api',
+    'middleware' => 'serializer:array',
 ],function() use($api){
     $api->get('version', function(){
         return 'v1';
@@ -53,5 +54,27 @@ $api->version('v1', [
         // 图片验证码
         $api->post('captchas', 'CaptchasController@store')
             ->name('api.captchas.store');
+    });
+
+    $api->group([
+        'middleware' => 'api.throttle',
+        'limit' => config('api.rate_limits.access.limit'),
+        'expires' => config('api.rate_limits.access.expires'),
+    ],  function($api){
+
+        $api->group([
+            'middleware' => 'api.auth',
+        ],  function($api) {
+
+            // 当前用户信息
+            $api->get('user', 'UsersController@me')
+                ->name('api.user.show');
+            // 编辑用户信息
+            $api->patch('user', 'UsersController@update')
+                ->name('api.user.update');
+            // 图片资源
+            $api->post('images', 'ImagesController@store')
+                ->name('api.images.store');
+        });
     });
 });
