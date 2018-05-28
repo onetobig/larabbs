@@ -10,16 +10,27 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Auth;
 use Spatie\Permission\Traits\HasRoles;
 use Redis;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class User extends Authenticatable
+class User extends Authenticatable implements JWTSubject
 {
     use HasRoles;
     use ActiveUserHelper;
     use LastActivedAtHelper;
-
     use Notifiable {
         notify as protected laravelNotify;
     }
+
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'name', 'phone', 'email', 'password', 'introduction', 'avatar',
+        'weixin_openid', 'weixin_unionid'
+    ];
 
     public function notify($instance)
     {
@@ -31,15 +42,6 @@ class User extends Authenticatable
         $this->increment('notification_count');
         $this->laravelNotify($instance);
     }
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-    protected $fillable = [
-        'name', 'email', 'password', 'introduction', 'avatar'
-    ];
-
     /**
      * The attributes that should be hidden for arrays.
      *
@@ -114,5 +116,18 @@ class User extends Authenticatable
             // 否则是用用户注册时间
             return $this->created_at;
         }
+    }
+
+
+    // Rest omitted for brevity
+
+    public function getJWTIdentifier()
+    {
+        return $this->getKey();
+    }
+
+    public function getJWTCustomClaims()
+    {
+        return [];
     }
 }
