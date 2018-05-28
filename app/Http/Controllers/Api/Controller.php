@@ -8,6 +8,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Requests\Request;
 use Dingo\Api\Routing\Helpers;
 use Illuminate\Routing\Controller as BaseController;
 
