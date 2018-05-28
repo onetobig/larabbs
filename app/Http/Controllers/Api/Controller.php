@@ -10,9 +10,10 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Requests\Request;
 use Dingo\Api\Routing\Helpers;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Routing\Controller as BaseController;
 
 class Controller extends BaseController
 {
-    use Helpers;
+    use Helpers,AuthorizesRequests;
 }
