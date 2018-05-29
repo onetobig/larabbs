@@ -66,11 +66,13 @@ $api->version('v1', [
         $api->get('categories', 'CategoriesController@index')
             ->name('api.categories.index');
 
+        $api->get('topics',  'TopicsController@index')
+            ->name('api.topics.index');
+
         // 需要 token 的接口
         $api->group([
             'middleware' => 'api.auth',
         ],  function($api) {
-
             // 当前用户信息
             $api->get('user', 'UsersController@me')
                 ->name('api.user.show');

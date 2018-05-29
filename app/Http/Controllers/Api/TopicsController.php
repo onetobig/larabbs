@@ -32,4 +32,26 @@ class TopicsController extends Controller
         $topic->delete();
         return $this->response->noContent();
     }
+
+    public function index(Request $request, Topic $topic)
+    {
+        $query = $topic->query();
+
+        if ($categoryId = $request->category_id) {
+            $query->where('category_id',  $categoryId);
+        }
+
+        switch ($request->order) {
+            case 'recent':
+                $query->recent();
+                break;
+            default:
+                $query->recentReplied();
+                break;
+        }
+
+        $topics = $query->paginate(20);
+
+        return $this->response->paginator($topics, new TopicTransformer());
+    }
 }
