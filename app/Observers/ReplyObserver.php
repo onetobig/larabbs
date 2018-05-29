@@ -26,6 +26,11 @@ class ReplyObserver
         }
     }
 
+    public function saved(Reply $reply)
+    {
+        $this->created($reply);
+    }
+
     public function deleted(Reply $reply)
     {
         $reply->topic->decrement('reply_count', 1);
