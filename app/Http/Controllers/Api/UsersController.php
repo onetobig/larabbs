@@ -108,9 +108,9 @@ class UsersController extends Controller
         // meta 中返回 Token 信息
         return $this->response->item($user, new UserTransformer())
             ->setMeta([
-                'access_token' => \Auth::gurad('api')->fromUser($user),
+                'access_token' => \Auth::guard('api')->fromUser($user),
                 'token_type' => 'Bearer',
-                'expires_in' => \Auth::gurad('api')->factory()->getTTL() * 60
+                'expires_in' => \Auth::guard('api')->factory()->getTTL() * 60
             ])
             ->setStatusCode(201);
     }
