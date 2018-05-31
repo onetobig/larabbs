@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests\Api;
 
-
 class UserRequest extends FormRequest
 {
+
     public function rules()
     {
         switch ($this->method()) {
@@ -16,6 +16,7 @@ class UserRequest extends FormRequest
                     'verification_code' => 'required|string',
                 ];
                 break;
+            case 'PUT':
             case 'PATCH':
                 $userId = \Auth::guard('api')->id();
                 return [
