@@ -44,6 +44,10 @@ $api->version('v1', [
     $api->delete('authorizations/current', 'AuthorizationsController@destroy')
         ->name('api.authorizations.destroy');
 
+    // 用户详情
+    $api->get('users/{user}', 'UsersController@show')
+        ->name('api.users.show');
+
     $api->group([
         'middleware' => 'api.throttle',
         'limit' => config('api.rate_limits.sign.limit'),
