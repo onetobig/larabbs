@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Requests\Api\VerificationCodeRequest;
 use Illuminate\Http\Request;
 use Overtrue\EasySms\EasySms;
 
 class VerificationCodesController extends Controller
 {
-    public function store(Request $request, EasySms $easySms)
+    public function store(VerificationCodeRequest $request, EasySms $easySms)
     {
         $phone = $request->input('phone');
 
