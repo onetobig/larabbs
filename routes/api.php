@@ -61,7 +61,7 @@ $api->version('v1', [
         $api->get('users/{user}/topics', 'TopicsController@userIndex')
             ->name('api.users.topics.userIndex');
         // 某个用户发布的话题
-        $api->get('users/{user}/topics', 'TopicController@userIndex')
+        $api->get('users/{user}/topics', 'TopicsController@userIndex')
             ->name('api.users.topics.index');
         // 回复列表
         $api->get('topics/{topic}/replies', 'RepliesController@index')
