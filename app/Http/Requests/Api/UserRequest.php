@@ -7,12 +7,23 @@ class UserRequest extends FormRequest
 {
     public function rules()
     {
-        return [
-            'name' => 'required|regex:/^[A-Za-z\-\_]+$/|max:255',
-            'password' => 'required|min:6',
-            'verification_key' => 'required|string',
-            'verification_code' => 'required|string',
-        ];
+        switch ($this->getMethod()) {
+            case 'POST':
+                return [
+                    'name' => 'required|regex:/^[A-Za-z\-\_]+$/|max:255',
+                    'password' => 'required|min:6',
+                    'verification_key' => 'required|string',
+                    'verification_code' => 'required|string',
+                ];
+            case 'PATCH':
+                $userId = \Auth::guard('api')->id();
+                return [
+                    'name' => 'regex:/^[A-Za-z\-\_]+$/|max:255',
+                    'email' => 'email|unique:users,email,' . $userId,
+                    'introduction' => 'max:80',
+                    'avatar_image_id' => 'exists:images,id,type,avatar,user_id,' . $userId,
+                ];
+        }
     }
 
     public function attributes()
@@ -26,7 +37,8 @@ class UserRequest extends FormRequest
     public function messages()
     {
         return [
-            'name.regex' => '名称由英文字母、横杠、下划线组成',
+            'name.regex' => '用户名由英文字母、横杠、下划线组成',
+            'email.unique' => '邮箱已被占用，请重新填写',
         ];
     }
 }
