@@ -14,7 +14,12 @@ class CaptchasController extends Controller
         $key = 'captcha:' . str_random(15);
         $phone = $request->input('phone');
         $expiredAt = now()->addMinutes(2);
-        \Cache::put($key, ['code' => $captcha->getPhrase(), 'phone' => $phone], $expiredAt);
+        if (!app()->environment('production')) {
+            $code = 1234;
+        } else {
+            $code = $captcha->getPhrase();
+        }
+        \Cache::put($key, ['code' => $code, 'phone' => $phone], $expiredAt);
 
         return $this->response->array([
             'captcha_key' => $key,

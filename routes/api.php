@@ -17,11 +17,12 @@ $api = app(\Dingo\Api\Routing\Router::class);
 
 $api->version('v1', [
     'namespace' => 'App\Http\Controllers\Api',
+    'middleware' => ['bindings', 'serializer:array'],
 ], function ($api) {
     $api->group([
         'middleware' => 'api.throttle',
         'limit' => config('api.rate_limits.sign.limit'),
-        'expires' => config('api.rate_limits.access.expires'),
+        'expires' => config('api.rate_limits.sign.expires'),
     ], function ($api) {
         // 短信验证码
         $api->post('verificationCodes', 'VerificationCodesController@store')
@@ -43,5 +44,19 @@ $api->version('v1', [
         // 删除 token
         $api->delete('authorizations/current', 'AuthorizationsController@destroy')
             ->name('api.authorizations.destroy');
+    });
+
+    $api->group([
+        'middleware' => 'api.throttle',
+        'limit' => config('api.rate_limits.access.limit'),
+        'expires' => config('api.rate_limits.access.expires'),
+    ], function ($api) {
+        // 游客可以访问的接口
+
+        // 登录才可访问的接口
+        $api->group(['middleware' => 'api.auth'], function ($api) {
+            $api->get('user', 'UsersController@me')
+                ->name('api.user.me');
+        });
     });
 });
