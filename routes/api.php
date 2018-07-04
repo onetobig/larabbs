@@ -92,7 +92,7 @@ $api->version('v1', [
             // 修改话题
             $api->patch('topics/{topic}', 'TopicsController@update')
                 ->name('api.topics.update');
-            $api->patch('topics/{topic}', 'TopicsController@destroy')
+            $api->delete('topics/{topic}', 'TopicsController@destroy')
                 ->name('api.topics.destroy');
             // 回复话题
             $api->post('topics/{topic}/replies', 'RepliesController@store')

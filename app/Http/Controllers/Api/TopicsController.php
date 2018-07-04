@@ -26,8 +26,7 @@ class TopicsController extends Controller
         $this->authorize('update', $topic);
         $attributes = $request->only(['title', 'body', 'category_id']);
         $topic->update($attributes);
-        return $this->response->item($topic, new TopicTransformer())
-            ->setStatusCode(201);
+        return $this->response->item($topic, new TopicTransformer());
     }
 
     public function destroy(Topic $topic)
