@@ -63,10 +63,14 @@ $api->version('v1', [
         // 某个用户发布的话题
         $api->get('users/{user}/topics', 'TopicController@userIndex')
             ->name('api.users.topics.index');
+        // 回复列表
         $api->get('topics/{topic}/replies', 'RepliesController@index')
             ->name('api.topics.replies.index');
         $api->get('users/{user}/replies', 'RepliesController@userIndex')
             ->name('api.users.replies.userIndex');
+        // 资源推荐
+        $api->get('links', 'LinksController@index')
+            ->name('api.links.index');
 
         // 登录才可访问的接口
         $api->group(['middleware' => 'api.auth'], function ($api) {
