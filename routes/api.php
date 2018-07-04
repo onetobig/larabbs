@@ -57,13 +57,19 @@ $api->version('v1', [
 
         // 登录才可访问的接口
         $api->group(['middleware' => 'api.auth'], function ($api) {
+            // 获取用户信息
             $api->get('user', 'UsersController@me')
                 ->name('api.user.me');
+            // 更新用户信息
             $api->patch('user', 'UsersController@update')
                 ->name('api.user.update');
-
+            // 上传图片
             $api->post('images', 'ImagesController@store')
                 ->name('api.images.store');
+            // 发布话题
+            $api->post('topics', 'TopicsController@store')
+                ->name('api.topics.store');
+
         });
     });
 });
