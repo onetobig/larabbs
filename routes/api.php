@@ -14,3 +14,9 @@ use Illuminate\Http\Request;
 */
 $api = app(\Dingo\Api\Routing\Router::class);
 
+$api->version('v1', [
+    'namespace' => 'App\Http\Controllers\Api'
+],function ($api) {
+    $api->post('verificationCodes', 'VerificationCodesController@store')
+        ->name('api.verifications.store');
+});
