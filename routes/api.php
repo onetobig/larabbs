@@ -60,6 +60,13 @@ $api->version('v1', [
             ->name('api.topics.show');
         $api->get('users/{user}/topics', 'TopicsController@userIndex')
             ->name('api.users.topics.userIndex');
+        // 某个用户发布的话题
+        $api->get('users/{user}/topics', 'TopicController@userIndex')
+            ->name('api.users.topics.index');
+        $api->get('topics/{topic}/replies', 'RepliesController@index')
+            ->name('api.topics.replies.index');
+        $api->get('users/{user}/replies', 'RepliesController@userIndex')
+            ->name('api.users.replies.userIndex');
 
         // 登录才可访问的接口
         $api->group(['middleware' => 'api.auth'], function ($api) {
@@ -86,6 +93,9 @@ $api->version('v1', [
             // 删除回复
             $api->delete('topics/{topic}/replies/{reply}', 'RepliesController@destroy')
                 ->name('api.replies.destroy');
+            // 通知列表
+            $api->get('user/notifications', 'NotificationsController@index')
+                ->name('api.notifications.index');
         });
     });
 });
