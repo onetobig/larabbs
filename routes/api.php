@@ -71,6 +71,9 @@ $api->version('v1', [
         // 资源推荐
         $api->get('links', 'LinksController@index')
             ->name('api.links.index');
+        // 活跃用户列表
+        $api->get('actived/users', 'UsersController@activedIndex')
+            ->name('api.users.activedIndex');
 
         // 登录才可访问的接口
         $api->group(['middleware' => 'api.auth'], function ($api) {
