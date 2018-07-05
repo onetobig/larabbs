@@ -10,8 +10,8 @@ class UsersController extends Controller
 {
     public function store(UserRequest $request)
     {
-        $verification_key = $request->verification_key;
-        $verificationData = \Cache::get($verification_key);
+        $verificationKey = $request->verification_key;
+        $verificationData = \Cache::get($verificationKey);
         if (!$verificationData) {
             return $this->response->error('短信验证码已失效', 422);
         }
@@ -26,7 +26,7 @@ class UsersController extends Controller
             'password' => bcrypt($request->password),
         ]);
 
-        \Cache::forget($verification_key);
+        \Cache::forget($verificationKey);
 
         return $this->response->created();
     }
