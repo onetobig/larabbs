@@ -12,7 +12,7 @@ namespace App\Transformers;
 use App\Models\Topic;
 use League\Fractal\TransformerAbstract;
 
-class TopicsTransformer extends TransformerAbstract
+class TopicTransformer extends TransformerAbstract
 {
     protected $availableIncludes = ['user', 'category'];
 

@@ -60,6 +60,10 @@ $api->version('v1', [
             ->name('api.users.topics.userIndex');
         $api->get('topics/{topic}', 'TopicsController@show')
             ->name('api.topics.show');
+        $api->get('topics/{topic}/replies', 'RepliesController@index')
+            ->name('api.replies.index');
+        $api->get('users/{user}/replies', 'RepliesController@userIndex')
+            ->name('api.replies.userIndex');
 
         // 需要 token 访问的接口
         $api->group(['middleware' => 'api.auth'], function ($api) {
@@ -83,6 +87,9 @@ $api->version('v1', [
                 ->name('api.topics.replies');
             $api->delete('topics/{topic}/replies/{reply}', 'RepliesController@destroy')
                 ->name('api.topics.destroy');
+            // 通知列表
+            $api->get('user/notifications', 'NotificationsController@index')
+                ->name('api.user.notifications.index');
         });
     });
 
