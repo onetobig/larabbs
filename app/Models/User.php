@@ -10,8 +10,9 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Auth;
 use Spatie\Permission\Traits\HasRoles;
 use Redis;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class User extends Authenticatable
+class User extends Authenticatable implements JWTSubject
 {
     use HasRoles;
     use ActiveUserHelper;
@@ -115,5 +116,16 @@ class User extends Authenticatable
             // 否则是用用户注册时间
             return $this->created_at;
         }
+    }
+
+    // Rest omitted for brevity
+    public function getJWTIdentifier()
+    {
+        return $this->getKey();
+    }
+
+    public function getJWTCustomClaims()
+    {
+        return [];
     }
 }
