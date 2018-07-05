@@ -92,6 +92,10 @@ $api->version('v1', [
                 ->name('api.user.notifications.index');
             $api->get('user/notifications/stats', 'NotificationsController@stats')
                 ->name('api.user.notifications.stats');
+            $api->patch('user/read/notifications', 'NotificationsController@read')
+                ->name('api.user.notifications.read');
+            $api->get('user/permissions', 'PermissionsController@index')
+                ->name('api.user.permission.index');
         });
     });
 
