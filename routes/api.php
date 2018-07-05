@@ -64,6 +64,10 @@ $api->version('v1', [
             ->name('api.replies.index');
         $api->get('users/{user}/replies', 'RepliesController@userIndex')
             ->name('api.replies.userIndex');
+        $api->get('links', 'LinksController@index')
+            ->name('api.links.index');
+        $api->get('actived/users', 'UsersController@activedIndex')
+            ->name('api.actived.users.index');
 
         // 需要 token 访问的接口
         $api->group(['middleware' => 'api.auth'], function ($api) {
