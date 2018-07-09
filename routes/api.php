@@ -55,6 +55,9 @@ $api->version('v1', function ($api) {
                 ->name('api.topics.show');
             $api->get('users/{user}/topics', 'TopicsController@userIndex')
                 ->name('api.users.topics.index');
+            $api->get('users/{user}/replies', 'RepliesController@userIndex')
+                ->name('api.users.replies.index');
+
 
             // 需要登录才可访问的接口
             $api->group([
