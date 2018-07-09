@@ -31,6 +31,8 @@ $api->version('v1', function ($api) {
                 ->name('verificationCodes.store');
             $api->post('users', 'UsersController@store')
                 ->name('users.store');
+            $api->post('socials/{social_type}/authorizations', 'AuthorizationsController@socialStore')
+                ->name('socials.authorizations.store');
         });
 
         $api->group([
