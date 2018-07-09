@@ -47,6 +47,8 @@ $api->version('v1', function ($api) {
             'limit' => config('api.rate_limits.access.limit'),
         ], function ($api) {
             // 游客可访问的接口
+            $api->get('categories', 'CategoriesController@index')
+                ->name('api.categories.index');
 
             // 需要登录才可访问的接口
             $api->group([
