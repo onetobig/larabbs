@@ -72,6 +72,10 @@ $api->version('v1', function ($api) {
                     ->name('topics.update');
                 $api->delete('topics/{topic}', 'TopicsController@destroy')
                     ->name('topics.destroy');
+                $api->post('topics/{topic}/replies', 'RepliesController@store')
+                    ->name('replies.store');
+                $api->delete('topics/{topic}/replies/{reply}', 'RepliesController@destroy')
+                    ->name('replies.destroy');
             });
 
         });
