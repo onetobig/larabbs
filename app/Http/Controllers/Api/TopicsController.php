@@ -19,4 +19,19 @@ class TopicsController extends Controller
         return $this->response->item($topic, new TopicTransformer())
             ->setStatusCode(201);
     }
+
+    public function update(Topic $topic, TopicRequest $request)
+    {
+        $this->authorize('update', $topic);
+        $attributes = $request->only(['title', 'category_id', 'body']);
+        $topic->update($attributes);
+        return $this->response->item($topic, new TopicTransformer());
+    }
+
+    public function destroy(Topic $topic)
+    {
+        $this->authorize('destroy', $topic);
+        $topic->delete();
+        return $this->response->noContent();
+    }
 }

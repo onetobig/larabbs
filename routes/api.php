@@ -49,7 +49,6 @@ $api->version('v1', function ($api) {
             // 游客可访问的接口
             $api->get('categories', 'CategoriesController@index')
                 ->name('api.categories.index');
-
             // 需要登录才可访问的接口
             $api->group([
                 'middleware' => ['api.auth']
@@ -62,6 +61,10 @@ $api->version('v1', function ($api) {
                     ->name('images.store');
                 $api->post('topics', 'TopicsController@store')
                     ->name('topics.store');
+                $api->patch('topics/{topic}', 'TopicsController@update')
+                    ->name('topics.update');
+                $api->delete('topics/{topic}', 'TopicsController@destroy')
+                    ->name('topics.destroy');
             });
 
         });
