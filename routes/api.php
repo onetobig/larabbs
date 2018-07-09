@@ -52,9 +52,12 @@ $api->version('v1', function ($api) {
             $api->group([
                 'middleware' => ['api.auth']
             ], function ($api) {
-
                 $api->get('user', 'UsersController@me')
                     ->name('user.store');
+                $api->patch('user', 'UsersController@update')
+                    ->name('user.update');
+                $api->post('images', 'ImagesController@store')
+                    ->name('images.store');
 
             });
 
