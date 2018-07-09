@@ -64,21 +64,23 @@ $api->version('v1', function ($api) {
                 'middleware' => ['api.auth']
             ], function ($api) {
                 $api->get('user', 'UsersController@me')
-                    ->name('user.store');
+                    ->name('api.user.store');
                 $api->patch('user', 'UsersController@update')
-                    ->name('user.update');
+                    ->name('api.user.update');
                 $api->post('images', 'ImagesController@store')
-                    ->name('images.store');
+                    ->name('api.images.store');
                 $api->post('topics', 'TopicsController@store')
-                    ->name('topics.store');
+                    ->name('api.topics.store');
                 $api->patch('topics/{topic}', 'TopicsController@update')
-                    ->name('topics.update');
+                    ->name('api.topics.update');
                 $api->delete('topics/{topic}', 'TopicsController@destroy')
-                    ->name('topics.destroy');
+                    ->name('api.topics.destroy');
                 $api->post('topics/{topic}/replies', 'RepliesController@store')
-                    ->name('replies.store');
+                    ->name('api.replies.store');
                 $api->delete('topics/{topic}/replies/{reply}', 'RepliesController@destroy')
-                    ->name('replies.destroy');
+                    ->name('api.replies.destroy');
+                $api->get('user/notifications', 'NotificationsController@index')
+                    ->name('api.notifications.index');
             });
 
         });
