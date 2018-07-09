@@ -18,7 +18,7 @@ $api = app(\Dingo\Api\Routing\Router::class);
 $api->version('v1', function ($api) {
     $api->group([
         'namespace' => 'App\Http\Controllers\Api',
-        'middleware' => ['bindings', ]
+        'middleware' => ['bindings', 'serializer:array']
     ], function ($api) {
         $api->group([
             'middleware' => 'api.throttle',
@@ -46,6 +46,17 @@ $api->version('v1', function ($api) {
             'expires' => config('api.rate_limits.access.expires'),
             'limit' => config('api.rate_limits.access.limit'),
         ], function ($api) {
+            // 游客可访问的接口
+
+            // 需要登录才可访问的接口
+            $api->group([
+                'middleware' => ['api.auth']
+            ], function ($api) {
+
+                $api->get('user', 'UsersController@me')
+                    ->name('user.store');
+
+            });
 
         });
     });
